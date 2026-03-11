@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ROY'S PASTA PALACE ~ Est. 1997</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
+    
+    body {
+      background-color: #000080;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='2' fill='%23ffffff22'/%3E%3C/svg%3E");
+      color: #ffff00;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    marquee.top {
+      background: #ff0000;
+      color: #ffff00;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 6px 0;
+      border-top: 4px solid #ffff00;
+      border-bottom: 4px solid #ffff00;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 10px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 52px;
+      color: #ff6600;
+      text-shadow: 3px 3px #ff0000, 6px 6px #880000;
+      margin: 10px 0 0 0;
+      letter-spacing: 2px;
+    }
+
+    h1 span {
+      color: #00ffff;
+      text-shadow: 3px 3px #0000aa;
+    }
+
+    .subtitle {
+      color: #00ff00;
+      font-size: 14px;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+
+    .divider {
+      color: #ff6600;
+      font-size: 20px;
+      letter-spacing: 4px;
+      margin: 8px 0;
+    }
+
+    .main-table {
+      width: 100%;
+      border: 4px ridge #ff6600;
+      background: #000044;
+      margin: 10px auto;
+    }
+
+    .main-table td {
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    .left-col {
+      width: 35%;
+      border-right: 3px ridge #ff6600;
+    }
+
+    .right-col {
+      width: 65%;
+    }
+
+    /* ROY */
+    .roy-frame {
+      border: 4px ridge gold;
+      background: #220000;
+      padding: 12px;
+      margin: 8px 0;
+      position: relative;
+    }
+
+    .roy-svg-container {
+      position: relative;
+      width: 140px;
+      height: 200px;
+      margin: 0 auto;
+    }
+
+    .roy-name {
+      font-size: 28px;
+      color: #ff6600;
+      font-weight: bold;
+      text-shadow: 2px 2px #aa0000;
+      margin: 6px 0 2px;
+    }
+
+    .roy-title {
+      color: #ffff00;
+      font-size: 12px;
+      font-style: italic;
+    }
+
+    /* Pasta bowl display */
+    .pasta-display {
+      border: 3px inset #ff6600;
+      background: #000033;
+      padding: 10px;
+      min-height: 80px;
+      font-size: 26px;
+      letter-spacing: 4px;
+      word-break: break-all;
+      line-height: 1.6;
+    }
+
+    .pasta-count-box {
+      background: #000000;
+      border: 3px solid #00ff00;
+      color: #00ff00;
+      font-size: 13px;
+      padding: 6px;
+      margin-top: 8px;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Feed button */
+    .feed-btn {
+      background: linear-gradient(180deg, #ff9900, #ff6600);
+      color: #000000;
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 20px;
+      font-weight: bold;
+      border: 4px outset #ffcc00;
+      padding: 12px 28px;
+      cursor: pointer;
+      margin: 10px 0;
+      text-shadow: none;
+      display: block;
+      width: 100%;
+      letter-spacing: 1px;
+    }
+
+    .feed-btn:active {
+      border-style: inset;
+      transform: translateY(2px);
+    }
+
+    .feed-btn:hover {
+      background: linear-gradient(180deg, #ffcc00, #ff9900);
+    }
+
+    /* Roy's speech bubble */
+    .speech-bubble {
+      position: relative;
+      background: #ffffcc;
+      color: #000000;
+      border: 3px solid #333;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 14px;
+      margin: 8px 0;
+      min-height: 40px;
+      text-align: left;
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -14px;
+      left: 30px;
+      border: 7px solid transparent;
+      border-top-color: #333;
+    }
+
+    .speech-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 31px;
+      border: 6px solid transparent;
+      border-top-color: #ffffcc;
+      z-index: 1;
+    }
+
+    /* Menu section */
+    .menu-box {
+      background: #001100;
+      border: 3px ridge #00aa00;
+      padding: 10px;
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    .menu-box h3 {
+      color: #00ff00;
+      text-align: center;
+      font-size: 18px;
+      margin: 0 0 8px;
+      text-decoration: underline;
+    }
+
+    .menu-item {
+      color: #ccffcc;
+      font-size: 13px;
+      padding: 3px 0;
+      border-bottom: 1px dashed #004400;
+    }
+
+    .menu-item .price {
+      color: #ffff00;
+      float: right;
+    }
+
+    /* Visitor counter & extras */
+    .extras-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .visitor-box {
+      background: #000;
+      border: 2px inset #888;
+      padding: 6px 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: #00ff00;
+    }
+
+    .visitor-digits {
+      font-size: 20px;
+      color: #ff0000;
+      letter-spacing: 3px;
+    }
+
+    .construction-badge {
+      background: #ffff00;
+      color: #000;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 4px 8px;
+      border: 2px solid #ff6600;
+      animation: blink 1s step-start infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .email-link {
+      color: #00ffff;
+      font-size: 12px;
+      text-decoration: underline;
+    }
+
+    .star-row {
+      color: #ffff00;
+      font-size: 22px;
+      letter-spacing: 6px;
+    }
+
+    /* Roy SVG */
+    svg.roy {
+      width: 140px;
+      height: 200px;
+    }
+
+    /* Mouth animation */
+    @keyframes munch {
+      0%,100% { d: path('M 65 145 Q 75 152 85 145'); }
+      50% { d: path('M 65 145 Q 75 140 85 145'); }
+    }
+
+    .mouth-path {
+      animation: none;
+    }
+
+    .mouth-path.eating {
+      animation: munch 0.15s linear infinite;
+    }
+
+    /* Fork animation */
+    @keyframes fork-stab {
+      0% { transform: rotate(-10deg) translate(0,0); }
+      30% { transform: rotate(5deg) translate(5px, -8px); }
+      60% { transform: rotate(-5deg) translate(0, 4px); }
+      100% { transform: rotate(-10deg) translate(0,0); }
+    }
+
+    .fork-arm {
+      transform-origin: 90px 130px;
+    }
+
+    .fork-arm.eating {
+      animation: fork-stab 0.3s ease-in-out infinite;
+    }
+
+    /* Right column sections */
+    .section-header {
+      background: #ff0000;
+      color: #ffff00;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 4px 10px;
+      border: 2px outset #ff6600;
+      margin: 10px 0 6px;
+      text-align: left;
+    }
+
+    .lore-box {
+      background: #110022;
+      border: 2px inset #aa00aa;
+      padding: 10px;
+      color: #ddaaff;
+      font-size: 13px;
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .lore-box strong { color: #ff88ff; }
+
+    .guestbook {
+      background: #001122;
+      border: 2px inset #0066aa;
+      padding: 8px;
+      font-size: 12px;
+      color: #aaddff;
+      text-align: left;
+    }
+
+    .guestbook-entry {
+      border-bottom: 1px dashed #0044aa;
+      padding: 4px 0;
+    }
+
+    .guestbook-name { color: #00ffff; font-weight: bold; }
+    .guestbook-date { color: #888; font-size: 11px; }
+
+    .bottom-marquee {
+      background: #004400;
+      color: #00ff00;
+      padding: 4px;
+      border-top: 3px solid #00ff00;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .footer {
+      font-size: 11px;
+      color: #888888;
+      padding: 6px;
+      text-align: center;
+    }
+
+    /* Pasta burst animation */
+    @keyframes pasta-burst {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+      100% { transform: scale(1); }
+    }
+
+    .pasta-burst {
+      animation: pasta-burst 0.3s ease-out;
+    }
+
+    /* Roy happy bounce */
+    @keyframes roy-bounce {
+      0%,100% { transform: translateY(0); }
+      25% { transform: translateY(-6px); }
+      75% { transform: translateY(-3px); }
+    }
+
+    .roy-svg-container.bouncing svg {
+      animation: roy-bounce 0.4s ease-in-out 3;
+    }
+
+    /* Fullness meter */
+    .fullness-bar-outer {
+      background: #111;
+      border: 2px inset #888;
+      height: 18px;
+      margin-top: 6px;
+      position: relative;
+    }
+
+    .fullness-bar-inner {
+      height: 100%;
+      background: linear-gradient(90deg, #00aa00, #ffaa00, #ff0000);
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    .fullness-label {
+      font-size: 11px;
+      color: #aaaaaa;
+      margin-top: 2px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+<marquee class="top" scrollamount="4">
+  ✡️ WELCOME TO ROY'S PASTA PALACE ✡️ &nbsp;&nbsp;&nbsp; BEST PASTA THIS SIDE OF BOCA RATON &nbsp;&nbsp;&nbsp; 🍝 FREE GARLIC BREAD WITH EVERY SOUL &nbsp;&nbsp;&nbsp; ✡️ ROY SAYS: "EAT SOMETHING, YOU LOOK THIN" &nbsp;&nbsp;&nbsp; 🌟 VOTED #1 BY ROY HIMSELF (1997, 1998, 1999) &nbsp;&nbsp;&nbsp;
+</marquee>
+
+<div class="container">
+  <h1>ROY'S <span>PASTA</span> PALACE</h1>
+  <div class="subtitle">★ A Jewish Man. A Dream. An Infinite Bowl. ★</div>
+  <div class="divider">~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~</div>
+
+  <table class="main-table" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="left-col">
+
+        <!-- ROY -->
+        <div class="roy-frame">
+          <div class="roy-name">👴 ROY</div>
+          <div class="roy-title">Pasta Enthusiast<br>Mensch of the Year<br>Brooklyn, NY</div>
+
+          <div class="roy-svg-container" id="roySvgContainer">
+            <svg class="roy" viewBox="0 0 150 220" xmlns="http://www.w3.org/2000/svg" id="roySvg">
+              <!-- Body / shirt -->
+              <rect x="40" y="130" width="70" height="75" rx="8" fill="#3355aa"/>
+              <!-- Collar / tie -->
+              <polygon points="75,132 68,148 75,155 82,148" fill="#cc2200"/>
+              <line x1="75" y1="155" x2="75" y2="195" stroke="#cc2200" stroke-width="6"/>
+              <!-- Head -->
+              <ellipse cx="75" cy="100" rx="32" ry="36" fill="#f5c99a"/>
+              <!-- Kippah -->
+              <ellipse cx="75" cy="68" rx="22" ry="9" fill="#222288"/>
+              <!-- Eyes -->
+              <ellipse cx="63" cy="96" rx="5" ry="6" fill="white"/>
+              <ellipse cx="87" cy="96" rx="5" ry="6" fill="white"/>
+              <circle cx="64" cy="97" r="3" fill="#442200" id="leftPupil"/>
+              <circle cx="88" cy="97" r="3" fill="#442200" id="rightPupil"/>
+              <!-- Eyebrows (expressive) -->
+              <path d="M 57 88 Q 63 85 69 88" stroke="#553311" stroke-width="2.5" fill="none" id="leftBrow"/>
+              <path d="M 81 88 Q 87 85 93 88" stroke="#553311" stroke-width="2.5" fill="none" id="rightBrow"/>
+              <!-- Nose -->
+              <ellipse cx="75" cy="107" rx="5" ry="3.5" fill="#e0a070"/>
+              <!-- Mouth -->
+              <path d="M 65 118 Q 75 125 85 118" stroke="#884422" stroke-width="2.5" fill="none" class="mouth-path" id="mouthPath"/>
+              <!-- Ears -->
+              <ellipse cx="43" cy="100" rx="6" ry="8" fill="#f5c99a"/>
+              <ellipse cx="107" cy="100" rx="6" ry="8" fill="#f5c99a"/>
+              <!-- Arm with fork (right side) -->
+              <g class="fork-arm" id="forkArm">
+                <rect x="100" y="128" width="14" height="50" rx="6" fill="#3355aa"/>
+                <!-- Fork handle -->
+                <rect x="105" y="175" width="5" height="20" rx="2" fill="#cccccc"/>
+                <!-- Fork tines -->
+                <rect x="103" y="165" width="2" height="12" rx="1" fill="#cccccc"/>
+                <rect x="106" y="165" width="2" height="12" rx="1" fill="#cccccc"/>
+                <rect x="109" y="165" width="2" height="12" rx="1" fill="#cccccc"/>
+              </g>
+              <!-- Left arm -->
+              <rect x="36" y="128" width="14" height="45" rx="6" fill="#3355aa"/>
+              <!-- Legs -->
+              <rect x="47" y="200" width="22" height="18" rx="4" fill="#224499"/>
+              <rect x="81" y="200" width="22" height="18" rx="4" fill="#224499"/>
+              <!-- Shoes -->
+              <ellipse cx="58" cy="218" rx="14" ry="6" fill="#111"/>
+              <ellipse cx="92" cy="218" rx="14" ry="6" fill="#111"/>
+            </svg>
+          </div>
+
+          <!-- Speech bubble -->
+          <div class="speech-bubble" id="speechBubble">
+            "Nu? You gonna feed me or what?"
+          </div>
+
+          <!-- Fullness meter -->
+          <div class="fullness-label">FULLNESS LEVEL:</div>
+          <div class="fullness-bar-outer">
+            <div class="fullness-bar-inner" id="fullnessBar"></div>
+          </div>
+          <div class="fullness-label" id="fullnessText">Roy is hungry 🍽️</div>
+        </div>
+
+      </td>
+      <td class="right-col">
+
+        <!-- FEED ROY -->
+        <div class="section-header">🍝 FEED ROY PASTA</div>
+
+        <div class="pasta-display" id="pastaDisplay">
+          <!-- pasta goes here -->
+        </div>
+
+        <div class="pasta-count-box">
+          &gt;&gt; PLATES CONSUMED: <span id="pastaCount">0</span><br>
+          &gt;&gt; LAST PASTA: <span id="lastPasta">none</span><br>
+          &gt;&gt; ROY STATUS: <span id="royStatus">hungry</span>
+        </div>
+
+        <button class="feed-btn" id="feedBtn" onclick="feedRoy()">
+          🍝 FEED ROY A PLATE 🍝
+        </button>
+
+        <!-- WHO IS ROY -->
+        <div class="section-header">📖 WHO IS ROY?</div>
+        <div class="lore-box">
+          <strong>Roy Greenbergstein</strong>, 74, has been eating pasta since before it was cool. Born in <strong>Flatbush, Brooklyn</strong> to Hungarian Jewish immigrants who somehow discovered spaghetti and never looked back, Roy developed what his late wife Miriam called "a religious relationship with carbohydrates."<br><br>
+          Roy is <strong>not Italian</strong>. He has never been to Italy. He does not care. He once told a waiter at an Olive Garden that his mother made better brisket ravioli than anything in Naples, and he stands by this.<br><br>
+          His specialties: <strong>matzah ball pasta</strong>, <strong>lox linguine</strong>, <strong>kugel-stuffed shells</strong>, and a brisket bolognese that has made grown men weep at three different Rosh Hashanah tables.<br><br>
+          <strong>Roy's philosophy:</strong> "You eat, you feel better. You don't eat, you also eat. These are the only two options."
+        </div>
+
+        <!-- MENU -->
+        <div class="menu-box">
+          <h3>🕍 ROY'S JEWISH-ITALIAN MENU 🕍</h3>
+          <div class="menu-item">Matzah Ball Carbonara <span class="price">$14.99</span></div>
+          <div class="menu-item">Lox & Cream Cheese Linguine <span class="price">$16.99</span></div>
+          <div class="menu-item">Brisket Bolognese (Miriam's Recipe) <span class="price">$18.99</span></div>
+          <div class="menu-item">Kugel-Stuffed Shells <span class="price">$13.99</span></div>
+          <div class="menu-item">Challah Bread + Garlic Butter <span class="price">$4.99</span></div>
+          <div class="menu-item">Rugelach Tiramisu (don't ask) <span class="price">$7.99</span></div>
+          <div class="menu-item">Roy's Bottomless Bowl* <span class="price">$∞</span></div>
+          <div style="color:#888;font-size:11px;margin-top:4px;">*Roy always wins</div>
+        </div>
+
+        <!-- GUESTBOOK -->
+        <div class="section-header">📝 GUESTBOOK</div>
+        <div class="guestbook">
+          <div class="guestbook-entry">
+            <span class="guestbook-name">MiriamRIP</span> <span class="guestbook-date">[03/14/1998]</span><br>
+            Roy stop eating so fast you'll get heartburn again
+          </div>
+          <div class="guestbook-entry">
+            <span class="guestbook-name">GarfieldFan99</span> <span class="guestbook-date">[11/02/1999]</span><br>
+            finally a website that understands me
+          </div>
+          <div class="guestbook-entry">
+            <span class="guestbook-name">ItalianPurist</span> <span class="guestbook-date">[07/19/1999]</span><br>
+            this is NOT authentic. also i ate the kugel shells. they were incredible
+          </div>
+          <div class="guestbook-entry">
+            <span class="guestbook-name">Roy_Himself</span> <span class="guestbook-date">[12/31/1999]</span><br>
+            Website works good. My grandson made it. Eat something.
+          </div>
+        </div>
+
+        <!-- Extras row -->
+        <div class="extras-row">
+          <div class="visitor-box">
+            🖥️ VISITORS:<br>
+            <span class="visitor-digits" id="visitorCount">0014782</span>
+          </div>
+          <div class="construction-badge">🚧 UNDER CONSTRUCTION 🚧</div>
+          <div style="font-size:11px;color:#aaa;">
+            Best viewed in<br>Netscape 4.0<br>800x600
+          </div>
+        </div>
+
+      </td>
+    </tr>
+  </table>
+
+  <div class="star-row">✡ ★ ✡ ★ ✡ ★ ✡ ★ ✡ ★ ✡</div>
+</div>
+
+<marquee class="bottom-marquee" scrollamount="3">
+  🍝 ROY'S PASTA PALACE ~ EST. 1997 ~ "EAT. EAT. WHY AREN'T YOU EATING?" ~ CALL ROY: 718-ROY-PAST ~ OPEN 7 DAYS (CLOSED SHABBAT BUT ALSO OPEN SHABBAT IF YOU'RE HUNGRY) ~ 🍝
+</marquee>
+
+<div class="footer">
+  &copy; 1997-1999 Roy's Pasta Palace &bull; Made with ❤️ and schmaltz &bull; <a class="email-link" href="mailto:roy@royspasta.net">roy@royspasta.net</a>
+</div>
+
+<script>
+  const pastas = [
+    '🍝','🍜','🍲','🥘','🫕','🍱'
+  ];
+
+  const pastaNames = [
+    'Matzah Ball Carbonara',
+    'Lox Linguine',
+    'Brisket Bolognese',
+    'Kugel-Stuffed Shells',
+    'Spaghetti & Schmear',
+    'Challah Pappardelle',
+    'Rugelach Ravioli',
+    'Farfalle Kugel',
+    'Matzo Fettuccine Alfredo',
+    'Gefilte Fish Pasta',
+    'High Holiday Gnocchi',
+    'Schmaltz Rigatoni',
+  ];
+
+  const quotes = [
+    '"More. More. Is that all you have?"',
+    '"Miriam, may she rest, would have given me seconds by now."',
+    '"This is good. Not as good as mine, but good."',
+    '"Oy, my heartburn. Worth it."',
+    '"You call this a portion? This is an insult."',
+    '"Finally! I was wasting away over here."',
+    '"My doctor said watch the carbs. My doctor is a shmendrik."',
+    '"Don\'t tell my son-in-law. He thinks I\'m watching my weight."',
+    '"I once ate pasta in Rome. Mine was better."',
+    '"Forty years ago Miriam made this. She\'d be very proud of you."',
+    '"A bissel more garlic wouldn\'t kill you."',
+    '"You\'re a good person. A mensch. Now give me more."',
+  ];
+
+  const statusMessages = [
+    'hungry', 'eating...', 'EATING!!', 'FEASTING', 'ASCENDING', 'pasta-drunk', 
+    'transcendent', 'becoming pasta', 'one with the noodle', 'FULL (still eating)'
+  ];
+
+  let count = 0;
+  let pastaEmojis = '';
+  let isEating = false;
+
+  // Animate visitor counter on load
+  let visitorTarget = 14782 + Math.floor(Math.random() * 500);
+  document.getElementById('visitorCount').textContent = String(visitorTarget).padStart(7, '0');
+
+  function feedRoy() {
+    if (isEating) return;
+    isEating = true;
+
+    count++;
+    const pasta = pastas[Math.floor(Math.random() * pastas.length)];
+    const pastaName = pastaNames[Math.floor(Math.random() * pastaNames.length)];
+    const quote = quotes[Math.floor(Math.random() * quotes.length)];
+
+    // Add pasta emoji to display
+    pastaEmojis += pasta;
+    const display = document.getElementById('pastaDisplay');
+    display.textContent = pastaEmojis;
+    display.classList.add('pasta-burst');
+    setTimeout(() => display.classList.remove('pasta-burst'), 300);
+
+    // Update counters
+    document.getElementById('pastaCount').textContent = count;
+    document.getElementById('lastPasta').textContent = pastaName;
+    document.getElementById('royStatus').textContent = statusMessages[Math.min(count - 1, statusMessages.length - 1)];
+
+    // Update speech bubble
+    document.getElementById('speechBubble').textContent = quote;
+
+    // Update fullness bar
+    const fullness = Math.min(count * 8, 100);
+    document.getElementById('fullnessBar').style.width = fullness + '%';
+    
+    const fullnessLabels = ['Roy is hungry 🍽️','Getting there...','Roy approves 👍','Roy is pleased ✡️','Roy is delighted 🌟','Roy is THRIVING 🎉','Roy has achieved pasta enlightenment 🍝'];
+    const labelIndex = Math.min(Math.floor(count / 2), fullnessLabels.length - 1);
+    document.getElementById('fullnessText').textContent = fullnessLabels[labelIndex];
+
+    // Animate Roy eating
+    document.getElementById('mouthPath').classList.add('eating');
+    document.getElementById('forkArm').classList.add('eating');
+    const royCont = document.getElementById('roySvgContainer');
+    royCont.classList.add('bouncing');
+
+    // Roy's eyebrows go up when happy
+    document.getElementById('leftBrow').setAttribute('d', 'M 57 85 Q 63 81 69 85');
+    document.getElementById('rightBrow').setAttribute('d', 'M 81 85 Q 87 81 93 85');
+
+    // Eyes widen
+    document.getElementById('leftPupil').setAttribute('r', '2');
+    document.getElementById('rightPupil').setAttribute('r', '2');
+
+    setTimeout(() => {
+      document.getElementById('mouthPath').classList.remove('eating');
+      document.getElementById('forkArm').classList.remove('eating');
+      royCont.classList.remove('bouncing');
+      // Return eyebrows
+      document.getElementById('leftBrow').setAttribute('d', 'M 57 88 Q 63 85 69 88');
+      document.getElementById('rightBrow').setAttribute('d', 'M 81 88 Q 87 85 93 88');
+      document.getElementById('leftPupil').setAttribute('r', '3');
+      document.getElementById('rightPupil').setAttribute('r', '3');
+      isEating = false;
+    }, 900);
+
+    // Scroll pasta display to bottom
+    display.scrollTop = display.scrollHeight;
+
+    // Increment visitor count
+    visitorTarget++;
+    document.getElementById('visitorCount').textContent = String(visitorTarget).padStart(7, '0');
+  }
+
+  // Auto-feed Roy once on load after a moment, so he's not just sitting there
+  setTimeout(() => {
+    document.getElementById('speechBubble').textContent = '"Nu? You gonna feed me or what?"';
+  }, 500);
+</script>
+
+</body>
+</html>
