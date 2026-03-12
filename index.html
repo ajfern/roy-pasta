@@ -1,153 +1,297 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>ROY'S PASTA PALACE ~ Est. 1997</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
-    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       background-color: #000080;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='2' fill='%23ffffff22'/%3E%3C/svg%3E");
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255,255,255,0.03) 10px,
+        rgba(255,255,255,0.03) 20px
+      );
       color: #ffff00;
-      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
-      margin: 0;
-      padding: 0;
+      font-family: 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', cursive;
+      min-height: 100vh;
       overflow-x: hidden;
     }
 
-    marquee.top {
-      background: #ff0000;
+    /* ── TOP MARQUEE ── */
+    .top-marquee {
+      background: #cc0000;
       color: #ffff00;
-      font-size: 18px;
+      font-size: clamp(13px, 3.5vw, 17px);
       font-weight: bold;
-      padding: 6px 0;
+      padding: 7px 0;
       border-top: 4px solid #ffff00;
       border-bottom: 4px solid #ffff00;
+      white-space: nowrap;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 10px;
+    /* ── HEADER ── */
+    .header {
       text-align: center;
+      padding: 10px 8px 4px;
     }
 
-    h1 {
-      font-size: 52px;
+    .header h1 {
+      font-size: clamp(28px, 9vw, 56px);
       color: #ff6600;
-      text-shadow: 3px 3px #ff0000, 6px 6px #880000;
-      margin: 10px 0 0 0;
-      letter-spacing: 2px;
+      text-shadow: 3px 3px #990000;
+      line-height: 1.1;
     }
 
-    h1 span {
-      color: #00ffff;
-      text-shadow: 3px 3px #0000aa;
-    }
+    .header h1 span { color: #00ffff; text-shadow: 3px 3px #003399; }
 
-    .subtitle {
+    .header .subtitle {
       color: #00ff00;
-      font-size: 14px;
+      font-size: clamp(11px, 3vw, 15px);
+      margin: 4px 0;
       font-style: italic;
-      margin-bottom: 10px;
     }
 
     .divider {
       color: #ff6600;
-      font-size: 20px;
+      font-size: clamp(14px, 4vw, 22px);
       letter-spacing: 4px;
-      margin: 8px 0;
+      margin: 4px 0;
     }
 
-    .main-table {
-      width: 100%;
-      border: 4px ridge #ff6600;
-      background: #000044;
-      margin: 10px auto;
-    }
-
-    .main-table td {
-      padding: 10px;
-      vertical-align: top;
-    }
-
-    .left-col {
-      width: 35%;
-      border-right: 3px ridge #ff6600;
-    }
-
-    .right-col {
-      width: 65%;
-    }
-
-    /* ROY */
-    .roy-frame {
-      border: 4px ridge gold;
-      background: #220000;
-      padding: 12px;
-      margin: 8px 0;
-      position: relative;
-    }
-
-    .roy-svg-container {
-      position: relative;
-      width: 140px;
-      height: 200px;
+    /* ── MAIN LAYOUT ── */
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 8px;
+      max-width: 900px;
       margin: 0 auto;
     }
 
+    @media (min-width: 640px) {
+      .main { flex-direction: row; align-items: flex-start; }
+      .left-col { width: 280px; flex-shrink: 0; }
+      .right-col { flex: 1; }
+    }
+
+    /* ── ROY CARD ── */
+    .roy-card {
+      background: #110000;
+      border: 4px ridge gold;
+      padding: 12px;
+      text-align: center;
+    }
+
     .roy-name {
-      font-size: 28px;
+      font-size: clamp(22px, 6vw, 30px);
       color: #ff6600;
       font-weight: bold;
-      text-shadow: 2px 2px #aa0000;
-      margin: 6px 0 2px;
+      text-shadow: 2px 2px #880000;
     }
 
     .roy-title {
       color: #ffff00;
-      font-size: 12px;
-      font-style: italic;
+      font-size: clamp(11px, 2.5vw, 13px);
+      margin: 3px 0 10px;
+      line-height: 1.5;
     }
 
-    /* Pasta bowl display */
-    .pasta-display {
-      border: 3px inset #ff6600;
+    .roy-svg-wrap {
+      position: relative;
+      width: 160px;
+      height: 220px;
+      margin: 0 auto;
+    }
+
+    svg.roy { width: 160px; height: 220px; }
+
+    /* Flying pasta */
+    .flying-pasta {
+      position: absolute;
+      font-size: 30px;
+      pointer-events: none;
+      z-index: 10;
+      transition: none;
+    }
+
+    @keyframes fly-to-mouth {
+      0%   { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+      80%  { transform: translate(var(--tx), var(--ty)) scale(0.5) rotate(360deg); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(400deg); opacity: 0; }
+    }
+
+    /* Speech bubble */
+    .speech-bubble {
+      position: relative;
+      background: #ffffcc;
+      color: #111;
+      border: 3px solid #333;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: clamp(12px, 3vw, 14px);
+      margin: 10px 0 6px;
+      text-align: left;
+      line-height: 1.4;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: 40px;
+      border: 7px solid transparent;
+      border-bottom-color: #333;
+    }
+    .speech-bubble::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 41px;
+      border: 6px solid transparent;
+      border-bottom-color: #ffffcc;
+      z-index: 1;
+    }
+
+    /* Fullness */
+    .fullness-label {
+      font-size: clamp(11px, 2.5vw, 13px);
+      color: #aaa;
+      font-family: 'Courier New', monospace;
+      margin-top: 6px;
+    }
+
+    .fullness-bar-outer {
+      background: #111;
+      border: 2px inset #888;
+      height: 20px;
+      margin-top: 4px;
+      overflow: hidden;
+    }
+
+    .fullness-bar-inner {
+      height: 100%;
+      background: linear-gradient(90deg, #00cc00, #ffaa00, #ff2200);
+      transition: width 0.6s ease;
+      width: 0%;
+    }
+
+    .fullness-status {
+      font-size: clamp(11px, 2.5vw, 12px);
+      color: #ccff88;
+      margin-top: 3px;
+      font-family: monospace;
+    }
+
+    /* ── RIGHT COL ── */
+    .section-header {
+      background: #cc0000;
+      color: #ffff00;
+      font-size: clamp(13px, 3.5vw, 16px);
+      font-weight: bold;
+      padding: 5px 10px;
+      border: 2px outset #ff6600;
+      margin: 10px 0 6px;
+    }
+
+    /* ── PASTA SELECTOR ── */
+    .pasta-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .pasta-btn {
+      background: #001144;
+      border: 3px outset #4466ff;
+      color: #fff;
+      font-size: clamp(22px, 6vw, 30px);
+      padding: 6px 10px;
+      cursor: pointer;
+      flex: 1;
+      min-width: 52px;
+      text-align: center;
+      transition: transform 0.1s;
+      position: relative;
+    }
+
+    .pasta-btn:hover { background: #002266; }
+    .pasta-btn:active { border-style: inset; transform: scale(0.95); }
+    .pasta-btn.selected {
+      border-color: #ffff00;
+      background: #003388;
+      box-shadow: 0 0 8px #ffff00;
+    }
+
+    .pasta-btn .pasta-label {
+      display: block;
+      font-size: clamp(8px, 2vw, 10px);
+      color: #aaccff;
+      font-family: monospace;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── BOWL ── */
+    .bowl-display {
       background: #000033;
+      border: 3px inset #4466ff;
       padding: 10px;
-      min-height: 80px;
-      font-size: 26px;
+      min-height: 70px;
+      font-size: clamp(22px, 6vw, 32px);
       letter-spacing: 4px;
       word-break: break-all;
       line-height: 1.6;
+      max-height: 120px;
+      overflow-y: auto;
     }
 
-    .pasta-count-box {
-      background: #000000;
-      border: 3px solid #00ff00;
-      color: #00ff00;
+    .bowl-empty {
+      color: #334;
       font-size: 13px;
-      padding: 6px;
-      margin-top: 8px;
-      font-family: 'Courier New', monospace;
+      font-family: monospace;
+      font-style: italic;
     }
 
-    /* Feed button */
+    /* ── STATS ── */
+    .stats-box {
+      background: #000;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      font-size: clamp(11px, 2.5vw, 13px);
+      padding: 6px 10px;
+      margin: 6px 0;
+      font-family: 'Courier New', monospace;
+      line-height: 1.8;
+    }
+
+    /* ── FEED BUTTON ── */
     .feed-btn {
-      background: linear-gradient(180deg, #ff9900, #ff6600);
-      color: #000000;
-      font-family: 'Comic Sans MS', cursive;
-      font-size: 20px;
-      font-weight: bold;
-      border: 4px outset #ffcc00;
-      padding: 12px 28px;
-      cursor: pointer;
-      margin: 10px 0;
-      text-shadow: none;
       display: block;
       width: 100%;
+      background: linear-gradient(180deg, #ffcc00, #ff6600);
+      color: #000;
+      font-family: 'Comic Sans MS', cursive;
+      font-size: clamp(16px, 5vw, 22px);
+      font-weight: bold;
+      border: 4px outset #ffff00;
+      padding: 14px 10px;
+      cursor: pointer;
+      margin: 8px 0;
       letter-spacing: 1px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      user-select: none;
     }
 
     .feed-btn:active {
@@ -155,96 +299,236 @@
       transform: translateY(2px);
     }
 
-    .feed-btn:hover {
-      background: linear-gradient(180deg, #ffcc00, #ff9900);
+    .feed-btn:hover { background: linear-gradient(180deg, #ffee44, #ffaa00); }
+
+    /* ── TABS ── */
+    .tab-bar {
+      display: flex;
+      gap: 4px;
+      margin-top: 10px;
     }
 
-    /* Roy's speech bubble */
-    .speech-bubble {
-      position: relative;
-      background: #ffffcc;
-      color: #000000;
-      border: 3px solid #333;
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 14px;
-      margin: 8px 0;
-      min-height: 40px;
-      text-align: left;
+    .tab-btn {
+      flex: 1;
+      background: #001144;
+      border: 2px outset #4466ff;
+      color: #aaccff;
+      font-family: 'Comic Sans MS', cursive;
+      font-size: clamp(10px, 2.5vw, 13px);
+      padding: 6px 4px;
+      cursor: pointer;
+      text-align: center;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .speech-bubble::after {
-      content: '';
-      position: absolute;
-      bottom: -14px;
-      left: 30px;
-      border: 7px solid transparent;
-      border-top-color: #333;
+    .tab-btn.active {
+      background: #002266;
+      border-style: inset;
+      color: #ffff00;
     }
 
-    .speech-bubble::before {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 31px;
-      border: 6px solid transparent;
-      border-top-color: #ffffcc;
-      z-index: 1;
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── LORE ── */
+    .lore-box {
+      background: #0a0018;
+      border: 2px inset #8800cc;
+      padding: 10px;
+      color: #ddaaff;
+      font-size: clamp(12px, 3vw, 14px);
+      line-height: 1.6;
     }
 
-    /* Menu section */
+    .lore-box strong { color: #ff88ff; }
+
+    /* ── MENU ── */
     .menu-box {
       background: #001100;
-      border: 3px ridge #00aa00;
+      border: 2px ridge #00aa00;
       padding: 10px;
-      text-align: left;
-      margin-top: 10px;
     }
 
     .menu-box h3 {
       color: #00ff00;
       text-align: center;
-      font-size: 18px;
-      margin: 0 0 8px;
+      font-size: clamp(14px, 4vw, 18px);
+      margin-bottom: 8px;
       text-decoration: underline;
     }
 
     .menu-item {
       color: #ccffcc;
-      font-size: 13px;
-      padding: 3px 0;
+      font-size: clamp(12px, 3vw, 14px);
+      padding: 5px 0;
       border-bottom: 1px dashed #004400;
-    }
-
-    .menu-item .price {
-      color: #ffff00;
-      float: right;
-    }
-
-    /* Visitor counter & extras */
-    .extras-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      gap: 10px;
+    }
+
+    .menu-item .price { color: #ffff00; }
+
+    /* ── GUESTBOOK ── */
+    .guestbook { background: #000d22; border: 2px inset #006699; padding: 8px; }
+
+    .guestbook-entry {
+      border-bottom: 1px dashed #003366;
+      padding: 6px 0;
+      font-size: clamp(12px, 3vw, 13px);
+      color: #aaddff;
+      line-height: 1.5;
+    }
+
+    .guestbook-name { color: #00ffff; font-weight: bold; }
+    .guestbook-date { color: #666; font-size: 11px; }
+
+    .guestbook-form {
       margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .guestbook-form input, .guestbook-form textarea {
+      background: #001133;
+      border: 2px inset #0044aa;
+      color: #ffffff;
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 13px;
+      padding: 6px;
+      width: 100%;
+    }
+
+    .guestbook-form textarea { min-height: 60px; resize: vertical; }
+
+    .guestbook-submit {
+      background: #004499;
+      border: 2px outset #0066cc;
+      color: #ffff00;
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 14px;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .guestbook-submit:active { border-style: inset; }
+
+    /* ── MINI GAME ── */
+    .minigame-box {
+      background: #001a00;
+      border: 2px ridge #00cc00;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .minigame-box p {
+      color: #88ff88;
+      font-size: clamp(12px, 3vw, 14px);
+      margin-bottom: 8px;
+    }
+
+    .falling-pasta-area {
+      position: relative;
+      background: #000a00;
+      border: 2px inset #006600;
+      height: 180px;
+      overflow: hidden;
+      cursor: crosshair;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .falling-item {
+      position: absolute;
+      font-size: 28px;
+      cursor: pointer;
+      user-select: none;
+      transition: top 0s;
+      animation: fall linear forwards;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @keyframes fall {
+      from { top: -40px; }
+      to { top: 190px; }
+    }
+
+    .falling-item.caught {
+      animation: pop 0.3s ease-out forwards;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+
+    .game-score {
+      color: #00ff00;
+      font-family: monospace;
+      font-size: clamp(13px, 3.5vw, 15px);
+      margin-top: 6px;
+    }
+
+    .game-btn {
+      background: #003300;
+      border: 2px outset #00aa00;
+      color: #00ff00;
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 14px;
+      padding: 8px 16px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .game-btn:active { border-style: inset; }
+
+    /* ── BOTTOM ── */
+    .star-row {
+      text-align: center;
+      color: #ffff00;
+      font-size: clamp(16px, 5vw, 24px);
+      letter-spacing: 6px;
+      margin: 10px 0 4px;
+    }
+
+    .bottom-marquee {
+      background: #004400;
+      color: #00ff00;
+      padding: 5px 0;
+      border-top: 3px solid #00ff00;
+      font-size: clamp(12px, 3vw, 14px);
+    }
+
+    .footer {
+      text-align: center;
+      color: #666;
+      font-size: 11px;
+      padding: 8px;
+    }
+
+    .footer a { color: #00aaff; }
+
+    /* ── EXTRAS (visitor, badge) ── */
+    .extras-row {
+      display: flex;
       flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-top: 8px;
     }
 
     .visitor-box {
       background: #000;
       border: 2px inset #888;
-      padding: 6px 10px;
+      padding: 5px 8px;
       font-family: 'Courier New', monospace;
-      font-size: 13px;
+      font-size: 12px;
       color: #00ff00;
     }
 
-    .visitor-digits {
-      font-size: 20px;
-      color: #ff0000;
-      letter-spacing: 3px;
-    }
+    .visitor-digits { font-size: 18px; color: #ff2200; letter-spacing: 3px; }
+
+    @keyframes blink { 50% { opacity: 0; } }
 
     .construction-badge {
       background: #ffff00;
@@ -256,286 +540,203 @@
       animation: blink 1s step-start infinite;
     }
 
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-
-    .email-link {
-      color: #00ffff;
-      font-size: 12px;
-      text-decoration: underline;
-    }
-
-    .star-row {
-      color: #ffff00;
-      font-size: 22px;
-      letter-spacing: 6px;
-    }
-
-    /* Roy SVG */
-    svg.roy {
-      width: 140px;
-      height: 200px;
-    }
-
-    /* Mouth animation */
+    /* Roy animations */
     @keyframes munch {
-      0%,100% { d: path('M 65 145 Q 75 152 85 145'); }
-      50% { d: path('M 65 145 Q 75 140 85 145'); }
+      0%,100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.4); }
     }
 
-    .mouth-path {
-      animation: none;
-    }
-
-    .mouth-path.eating {
-      animation: munch 0.15s linear infinite;
-    }
-
-    /* Fork animation */
-    @keyframes fork-stab {
-      0% { transform: rotate(-10deg) translate(0,0); }
-      30% { transform: rotate(5deg) translate(5px, -8px); }
-      60% { transform: rotate(-5deg) translate(0, 4px); }
-      100% { transform: rotate(-10deg) translate(0,0); }
-    }
-
-    .fork-arm {
-      transform-origin: 90px 130px;
-    }
-
-    .fork-arm.eating {
-      animation: fork-stab 0.3s ease-in-out infinite;
-    }
-
-    /* Right column sections */
-    .section-header {
-      background: #ff0000;
-      color: #ffff00;
-      font-size: 16px;
-      font-weight: bold;
-      padding: 4px 10px;
-      border: 2px outset #ff6600;
-      margin: 10px 0 6px;
-      text-align: left;
-    }
-
-    .lore-box {
-      background: #110022;
-      border: 2px inset #aa00aa;
-      padding: 10px;
-      color: #ddaaff;
-      font-size: 13px;
-      text-align: left;
-      line-height: 1.6;
-    }
-
-    .lore-box strong { color: #ff88ff; }
-
-    .guestbook {
-      background: #001122;
-      border: 2px inset #0066aa;
-      padding: 8px;
-      font-size: 12px;
-      color: #aaddff;
-      text-align: left;
-    }
-
-    .guestbook-entry {
-      border-bottom: 1px dashed #0044aa;
-      padding: 4px 0;
-    }
-
-    .guestbook-name { color: #00ffff; font-weight: bold; }
-    .guestbook-date { color: #888; font-size: 11px; }
-
-    .bottom-marquee {
-      background: #004400;
-      color: #00ff00;
-      padding: 4px;
-      border-top: 3px solid #00ff00;
-      font-size: 13px;
-      margin-top: 10px;
-    }
-
-    .footer {
-      font-size: 11px;
-      color: #888888;
-      padding: 6px;
-      text-align: center;
-    }
-
-    /* Pasta burst animation */
-    @keyframes pasta-burst {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.4); }
-      100% { transform: scale(1); }
-    }
-
-    .pasta-burst {
-      animation: pasta-burst 0.3s ease-out;
-    }
-
-    /* Roy happy bounce */
-    @keyframes roy-bounce {
+    @keyframes bounce {
       0%,100% { transform: translateY(0); }
-      25% { transform: translateY(-6px); }
-      75% { transform: translateY(-3px); }
+      33% { transform: translateY(-8px); }
+      66% { transform: translateY(-4px); }
     }
 
-    .roy-svg-container.bouncing svg {
-      animation: roy-bounce 0.4s ease-in-out 3;
+    .roy-bouncing { animation: bounce 0.5s ease-in-out 3; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
     }
 
-    /* Fullness meter */
-    .fullness-bar-outer {
-      background: #111;
-      border: 2px inset #888;
-      height: 18px;
-      margin-top: 6px;
-      position: relative;
-    }
-
-    .fullness-bar-inner {
-      height: 100%;
-      background: linear-gradient(90deg, #00aa00, #ffaa00, #ff0000);
-      transition: width 0.5s ease;
-      width: 0%;
-    }
-
-    .fullness-label {
-      font-size: 11px;
-      color: #aaaaaa;
-      margin-top: 2px;
-      font-family: monospace;
-    }
+    .roy-angry { animation: shake 0.15s linear 6; }
   </style>
 </head>
 <body>
 
-<marquee class="top" scrollamount="4">
-  ✡️ WELCOME TO ROY'S PASTA PALACE ✡️ &nbsp;&nbsp;&nbsp; BEST PASTA THIS SIDE OF BOCA RATON &nbsp;&nbsp;&nbsp; 🍝 FREE GARLIC BREAD WITH EVERY SOUL &nbsp;&nbsp;&nbsp; ✡️ ROY SAYS: "EAT SOMETHING, YOU LOOK THIN" &nbsp;&nbsp;&nbsp; 🌟 VOTED #1 BY ROY HIMSELF (1997, 1998, 1999) &nbsp;&nbsp;&nbsp;
+<marquee class="top-marquee" scrollamount="5">
+  ✡️ ROY'S PASTA PALACE ✡️ &nbsp;&nbsp; BEST PASTA THIS SIDE OF BOCA RATON &nbsp;&nbsp; 🍝 FREE GARLIC BREAD WITH EVERY SOUL &nbsp;&nbsp; ROY SAYS: "EAT SOMETHING, YOU LOOK THIN" &nbsp;&nbsp; 🌟 VOTED #1 BY ROY HIMSELF 1997–1999 &nbsp;&nbsp; ✡️
 </marquee>
 
-<div class="container">
+<div class="header">
   <h1>ROY'S <span>PASTA</span> PALACE</h1>
   <div class="subtitle">★ A Jewish Man. A Dream. An Infinite Bowl. ★</div>
-  <div class="divider">~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~</div>
+  <div class="divider">~·~·~·~·~·~·~</div>
+</div>
 
-  <table class="main-table" cellspacing="0" cellpadding="0">
-    <tr>
-      <td class="left-col">
+<div class="main">
 
-        <!-- ROY -->
-        <div class="roy-frame">
-          <div class="roy-name">👴 ROY</div>
-          <div class="roy-title">Pasta Enthusiast<br>Mensch of the Year<br>Brooklyn, NY</div>
+  <!-- LEFT: ROY -->
+  <div class="left-col">
+    <div class="roy-card">
+      <div class="roy-name">👴 ROY</div>
+      <div class="roy-title">Pasta Enthusiast<br>Mensch of the Year<br>Brooklyn, NY</div>
 
-          <div class="roy-svg-container" id="roySvgContainer">
-            <svg class="roy" viewBox="0 0 150 220" xmlns="http://www.w3.org/2000/svg" id="roySvg">
-              <!-- Body / shirt -->
-              <rect x="40" y="130" width="70" height="75" rx="8" fill="#3355aa"/>
-              <!-- Collar / tie -->
-              <polygon points="75,132 68,148 75,155 82,148" fill="#cc2200"/>
-              <line x1="75" y1="155" x2="75" y2="195" stroke="#cc2200" stroke-width="6"/>
-              <!-- Head -->
-              <ellipse cx="75" cy="100" rx="32" ry="36" fill="#f5c99a"/>
-              <!-- Kippah -->
-              <ellipse cx="75" cy="68" rx="22" ry="9" fill="#222288"/>
-              <!-- Eyes -->
-              <ellipse cx="63" cy="96" rx="5" ry="6" fill="white"/>
-              <ellipse cx="87" cy="96" rx="5" ry="6" fill="white"/>
-              <circle cx="64" cy="97" r="3" fill="#442200" id="leftPupil"/>
-              <circle cx="88" cy="97" r="3" fill="#442200" id="rightPupil"/>
-              <!-- Eyebrows (expressive) -->
-              <path d="M 57 88 Q 63 85 69 88" stroke="#553311" stroke-width="2.5" fill="none" id="leftBrow"/>
-              <path d="M 81 88 Q 87 85 93 88" stroke="#553311" stroke-width="2.5" fill="none" id="rightBrow"/>
-              <!-- Nose -->
-              <ellipse cx="75" cy="107" rx="5" ry="3.5" fill="#e0a070"/>
-              <!-- Mouth -->
-              <path d="M 65 118 Q 75 125 85 118" stroke="#884422" stroke-width="2.5" fill="none" class="mouth-path" id="mouthPath"/>
-              <!-- Ears -->
-              <ellipse cx="43" cy="100" rx="6" ry="8" fill="#f5c99a"/>
-              <ellipse cx="107" cy="100" rx="6" ry="8" fill="#f5c99a"/>
-              <!-- Arm with fork (right side) -->
-              <g class="fork-arm" id="forkArm">
-                <rect x="100" y="128" width="14" height="50" rx="6" fill="#3355aa"/>
-                <!-- Fork handle -->
-                <rect x="105" y="175" width="5" height="20" rx="2" fill="#cccccc"/>
-                <!-- Fork tines -->
-                <rect x="103" y="165" width="2" height="12" rx="1" fill="#cccccc"/>
-                <rect x="106" y="165" width="2" height="12" rx="1" fill="#cccccc"/>
-                <rect x="109" y="165" width="2" height="12" rx="1" fill="#cccccc"/>
-              </g>
-              <!-- Left arm -->
-              <rect x="36" y="128" width="14" height="45" rx="6" fill="#3355aa"/>
-              <!-- Legs -->
-              <rect x="47" y="200" width="22" height="18" rx="4" fill="#224499"/>
-              <rect x="81" y="200" width="22" height="18" rx="4" fill="#224499"/>
-              <!-- Shoes -->
-              <ellipse cx="58" cy="218" rx="14" ry="6" fill="#111"/>
-              <ellipse cx="92" cy="218" rx="14" ry="6" fill="#111"/>
-            </svg>
-          </div>
+      <div class="roy-svg-wrap" id="roySvgWrap">
+        <svg class="roy" id="roySvg" viewBox="0 0 160 230" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <rect x="42" y="138" width="76" height="78" rx="9" fill="#2244aa"/>
+          <!-- Tie -->
+          <polygon points="80,140 72,158 80,166 88,158" fill="#cc1100"/>
+          <line x1="80" y1="166" x2="80" y2="208" stroke="#cc1100" stroke-width="7"/>
+          <!-- Head -->
+          <ellipse cx="80" cy="106" rx="34" ry="38" fill="#f5c89a"/>
+          <!-- Kippah -->
+          <ellipse cx="80" cy="72" rx="24" ry="10" fill="#1a1a88"/>
+          <!-- Ears -->
+          <ellipse cx="46" cy="108" rx="7" ry="9" fill="#f0bb88"/>
+          <ellipse cx="114" cy="108" rx="7" ry="9" fill="#f0bb88"/>
+          <!-- Eyes (whites) -->
+          <ellipse cx="67" cy="103" rx="6" ry="7" fill="white" id="eyeWhiteL"/>
+          <ellipse cx="93" cy="103" rx="6" ry="7" fill="white" id="eyeWhiteR"/>
+          <!-- Pupils -->
+          <circle cx="68" cy="104" r="3.5" fill="#331100" id="pupilL"/>
+          <circle cx="94" cy="104" r="3.5" fill="#331100" id="pupilR"/>
+          <!-- Eyebrows -->
+          <path d="M 60 93 Q 67 90 74 93" stroke="#553311" stroke-width="3" fill="none" stroke-linecap="round" id="browL"/>
+          <path d="M 86 93 Q 93 90 100 93" stroke="#553311" stroke-width="3" fill="none" stroke-linecap="round" id="browR"/>
+          <!-- Nose -->
+          <ellipse cx="80" cy="115" rx="6" ry="4" fill="#e09060"/>
+          <!-- Mouth group -->
+          <g id="mouthGroup">
+            <path d="M 68 126 Q 80 134 92 126" stroke="#883322" stroke-width="3" fill="none" stroke-linecap="round" id="mouthPath"/>
+          </g>
+          <!-- Fork arm (right) -->
+          <g id="forkArm" style="transform-origin: 110px 145px;">
+            <rect x="106" y="138" width="15" height="54" rx="7" fill="#2244aa"/>
+            <rect x="112" y="188" width="6" height="22" rx="2" fill="#cccccc"/>
+            <rect x="109" y="178" width="2.5" height="13" rx="1" fill="#cccccc"/>
+            <rect x="112.5" y="178" width="2.5" height="13" rx="1" fill="#cccccc"/>
+            <rect x="116" y="178" width="2.5" height="13" rx="1" fill="#cccccc"/>
+          </g>
+          <!-- Left arm -->
+          <rect x="39" y="138" width="15" height="50" rx="7" fill="#2244aa"/>
+          <!-- Legs -->
+          <rect x="48" y="210" width="24" height="18" rx="5" fill="#1a3388"/>
+          <rect x="88" y="210" width="24" height="18" rx="5" fill="#1a3388"/>
+          <!-- Shoes -->
+          <ellipse cx="60" cy="228" rx="16" ry="7" fill="#111"/>
+          <ellipse cx="100" cy="228" rx="16" ry="7" fill="#111"/>
+        </svg>
 
-          <!-- Speech bubble -->
-          <div class="speech-bubble" id="speechBubble">
-            "Nu? You gonna feed me or what?"
-          </div>
+        <!-- Flying pasta lands here -->
+        <div id="flyingPastaContainer"></div>
+      </div>
 
-          <!-- Fullness meter -->
-          <div class="fullness-label">FULLNESS LEVEL:</div>
-          <div class="fullness-bar-outer">
-            <div class="fullness-bar-inner" id="fullnessBar"></div>
-          </div>
-          <div class="fullness-label" id="fullnessText">Roy is hungry 🍽️</div>
-        </div>
+      <div class="speech-bubble" id="speechBubble">
+        "Nu? You gonna feed me or what?"
+      </div>
 
-      </td>
-      <td class="right-col">
+      <div class="fullness-label">FULLNESS LEVEL:</div>
+      <div class="fullness-bar-outer">
+        <div class="fullness-bar-inner" id="fullnessBar"></div>
+      </div>
+      <div class="fullness-status" id="fullnessStatus">Roy is famished 🍽️</div>
+    </div>
+  </div>
 
-        <!-- FEED ROY -->
-        <div class="section-header">🍝 FEED ROY PASTA</div>
+  <!-- RIGHT: CONTENT -->
+  <div class="right-col">
 
-        <div class="pasta-display" id="pastaDisplay">
-          <!-- pasta goes here -->
-        </div>
+    <!-- PASTA SELECTOR -->
+    <div class="section-header">🍝 CHOOSE YOUR WEAPON</div>
+    <div class="pasta-selector" id="pastaSelector">
+      <button class="pasta-btn selected" data-emoji="🍝" data-name="Spaghetti" onclick="selectPasta(this)">
+        🍝<span class="pasta-label">Spaghetti</span>
+      </button>
+      <button class="pasta-btn" data-emoji="🍜" data-name="Ramen" onclick="selectPasta(this)">
+        🍜<span class="pasta-label">Ramen</span>
+      </button>
+      <button class="pasta-btn" data-emoji="🫕" data-name="Gnocchi" onclick="selectPasta(this)">
+        🫕<span class="pasta-label">Gnocchi</span>
+      </button>
+      <button class="pasta-btn" data-emoji="🥟" data-name="Kreplach" onclick="selectPasta(this)">
+        🥟<span class="pasta-label">Kreplach</span>
+      </button>
+      <button class="pasta-btn" data-emoji="🥚" data-name="Egg Kugel" onclick="selectPasta(this)">
+        🥚<span class="pasta-label">Kugel</span>
+      </button>
+      <button class="pasta-btn" data-emoji="🫙" data-name="Brisket Bol." onclick="selectPasta(this)">
+        🫙<span class="pasta-label">Brisket</span>
+      </button>
+    </div>
 
-        <div class="pasta-count-box">
-          &gt;&gt; PLATES CONSUMED: <span id="pastaCount">0</span><br>
-          &gt;&gt; LAST PASTA: <span id="lastPasta">none</span><br>
-          &gt;&gt; ROY STATUS: <span id="royStatus">hungry</span>
-        </div>
+    <!-- THE BOWL -->
+    <div class="section-header">🥣 ROY'S BOWL</div>
+    <div class="bowl-display" id="bowlDisplay">
+      <span class="bowl-empty">-- Roy is waiting --</span>
+    </div>
 
-        <button class="feed-btn" id="feedBtn" onclick="feedRoy()">
-          🍝 FEED ROY A PLATE 🍝
-        </button>
+    <div class="stats-box">
+      &gt; PLATES FED: <b id="pastaCount">0</b><br>
+      &gt; LAST SERVED: <span id="lastPasta">nothing yet</span><br>
+      &gt; ROY STATUS: <span id="royStatus">HUNGRY</span><br>
+      &gt; COMBO: <span id="comboCount">x0</span>
+    </div>
 
-        <!-- WHO IS ROY -->
-        <div class="section-header">📖 WHO IS ROY?</div>
-        <div class="lore-box">
-          <strong>Roy Greenbergstein</strong>, 74, has been eating pasta since before it was cool. Born in <strong>Flatbush, Brooklyn</strong> to Hungarian Jewish immigrants who somehow discovered spaghetti and never looked back, Roy developed what his late wife Miriam called "a religious relationship with carbohydrates."<br><br>
-          Roy is <strong>not Italian</strong>. He has never been to Italy. He does not care. He once told a waiter at an Olive Garden that his mother made better brisket ravioli than anything in Naples, and he stands by this.<br><br>
-          His specialties: <strong>matzah ball pasta</strong>, <strong>lox linguine</strong>, <strong>kugel-stuffed shells</strong>, and a brisket bolognese that has made grown men weep at three different Rosh Hashanah tables.<br><br>
-          <strong>Roy's philosophy:</strong> "You eat, you feel better. You don't eat, you also eat. These are the only two options."
-        </div>
+    <button class="feed-btn" id="feedBtn" onclick="feedRoy()">
+      🍝 FEED ROY A PLATE 🍝
+    </button>
 
-        <!-- MENU -->
-        <div class="menu-box">
-          <h3>🕍 ROY'S JEWISH-ITALIAN MENU 🕍</h3>
-          <div class="menu-item">Matzah Ball Carbonara <span class="price">$14.99</span></div>
-          <div class="menu-item">Lox & Cream Cheese Linguine <span class="price">$16.99</span></div>
-          <div class="menu-item">Brisket Bolognese (Miriam's Recipe) <span class="price">$18.99</span></div>
-          <div class="menu-item">Kugel-Stuffed Shells <span class="price">$13.99</span></div>
-          <div class="menu-item">Challah Bread + Garlic Butter <span class="price">$4.99</span></div>
-          <div class="menu-item">Rugelach Tiramisu (don't ask) <span class="price">$7.99</span></div>
-          <div class="menu-item">Roy's Bottomless Bowl* <span class="price">$∞</span></div>
-          <div style="color:#888;font-size:11px;margin-top:4px;">*Roy always wins</div>
-        </div>
+    <!-- TABS -->
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('lore', this)">📖 ROY'S STORY</button>
+      <button class="tab-btn" onclick="showTab('menu', this)">🕍 MENU</button>
+      <button class="tab-btn" onclick="showTab('game', this)">🎮 MINI GAME</button>
+      <button class="tab-btn" onclick="showTab('guestbook', this)">📝 GUESTBOOK</button>
+    </div>
 
-        <!-- GUESTBOOK -->
-        <div class="section-header">📝 GUESTBOOK</div>
-        <div class="guestbook">
+    <!-- TAB: LORE -->
+    <div class="tab-content active" id="tab-lore">
+      <div class="lore-box">
+        <strong>Roy Greenbergstein</strong>, 74, has been eating pasta since before it was cool. Born in <strong>Flatbush, Brooklyn</strong> to Hungarian Jewish immigrants who somehow discovered spaghetti and never looked back, Roy developed what his late wife Miriam called "a religious relationship with carbohydrates."<br><br>
+        Roy is <strong>not Italian</strong>. He has never been to Italy. He does not care. He once told a waiter at an Olive Garden that his mother made better brisket ravioli than anything in Naples, and he stands by this.<br><br>
+        His specialties: <strong>matzah ball pasta</strong>, <strong>lox linguine</strong>, <strong>kugel-stuffed shells</strong>, and a brisket bolognese that has made grown men weep at three different Rosh Hashanah tables.<br><br>
+        <strong>Roy's philosophy:</strong> "You eat, you feel better. You don't eat, you also eat. These are the only two options."
+      </div>
+    </div>
+
+    <!-- TAB: MENU -->
+    <div class="tab-content" id="tab-menu">
+      <div class="menu-box">
+        <h3>🕍 JEWISH-ITALIAN FUSION 🕍</h3>
+        <div class="menu-item"><span>Matzah Ball Carbonara</span><span class="price">$14.99</span></div>
+        <div class="menu-item"><span>Lox &amp; Cream Cheese Linguine</span><span class="price">$16.99</span></div>
+        <div class="menu-item"><span>Brisket Bolognese (Miriam's)</span><span class="price">$18.99</span></div>
+        <div class="menu-item"><span>Kugel-Stuffed Shells</span><span class="price">$13.99</span></div>
+        <div class="menu-item"><span>Gefilte Fish Pasta</span><span class="price">$12.99</span></div>
+        <div class="menu-item"><span>Challah Pappardelle w/ Butter</span><span class="price">$11.99</span></div>
+        <div class="menu-item"><span>Rugelach Tiramisu (don't ask)</span><span class="price">$7.99</span></div>
+        <div class="menu-item"><span>Roy's Bottomless Bowl*</span><span class="price">$∞</span></div>
+        <div style="color:#556;font-size:11px;margin-top:6px;">*Roy always wins. Kosher-ish. Closed Shabbat (also open Shabbat if you're hungry).</div>
+      </div>
+    </div>
+
+    <!-- TAB: GAME -->
+    <div class="tab-content" id="tab-game">
+      <div class="minigame-box">
+        <p>🎮 <strong>CATCH THE PASTA FOR ROY!</strong><br>Tap/click falling pasta before it hits the floor.</p>
+        <div class="falling-pasta-area" id="gameArea" onclick="gameClick(event)" ontouchstart="gameTouch(event)"></div>
+        <div class="game-score">CAUGHT: <span id="gameScore">0</span> | MISSED: <span id="gameMissed">0</span> | BEST: <span id="gameBest">0</span></div>
+        <button class="game-btn" id="gameStartBtn" onclick="startGame()">▶ START GAME</button>
+      </div>
+    </div>
+
+    <!-- TAB: GUESTBOOK -->
+    <div class="tab-content" id="tab-guestbook">
+      <div class="guestbook">
+        <div id="guestbookEntries">
           <div class="guestbook-entry">
             <span class="guestbook-name">MiriamRIP</span> <span class="guestbook-date">[03/14/1998]</span><br>
             Roy stop eating so fast you'll get heartburn again
@@ -546,159 +747,408 @@
           </div>
           <div class="guestbook-entry">
             <span class="guestbook-name">ItalianPurist</span> <span class="guestbook-date">[07/19/1999]</span><br>
-            this is NOT authentic. also i ate the kugel shells. they were incredible
+            this is NOT authentic. also i ate the kugel shells. incredible
           </div>
           <div class="guestbook-entry">
             <span class="guestbook-name">Roy_Himself</span> <span class="guestbook-date">[12/31/1999]</span><br>
             Website works good. My grandson made it. Eat something.
           </div>
         </div>
-
-        <!-- Extras row -->
-        <div class="extras-row">
-          <div class="visitor-box">
-            🖥️ VISITORS:<br>
-            <span class="visitor-digits" id="visitorCount">0014782</span>
-          </div>
-          <div class="construction-badge">🚧 UNDER CONSTRUCTION 🚧</div>
-          <div style="font-size:11px;color:#aaa;">
-            Best viewed in<br>Netscape 4.0<br>800x600
-          </div>
+        <div class="guestbook-form">
+          <input type="text" id="gbName" placeholder="Your Name" maxlength="30">
+          <textarea id="gbMessage" placeholder="Leave a message for Roy..."></textarea>
+          <button class="guestbook-submit" onclick="addGuestbookEntry()">📨 SIGN THE GUESTBOOK</button>
         </div>
+      </div>
+    </div>
 
-      </td>
-    </tr>
-  </table>
+    <!-- EXTRAS -->
+    <div class="extras-row">
+      <div class="visitor-box">
+        👥 VISITORS:<br>
+        <span class="visitor-digits" id="visitorCount">0</span>
+      </div>
+      <div class="construction-badge">🚧 UNDER CONSTRUCTION 🚧</div>
+      <div style="font-size:10px;color:#888;line-height:1.5;">
+        Best viewed in<br>Netscape 4.0<br>800×600
+      </div>
+    </div>
 
-  <div class="star-row">✡ ★ ✡ ★ ✡ ★ ✡ ★ ✡ ★ ✡</div>
-</div>
+  </div><!-- /right-col -->
+</div><!-- /main -->
+
+<div class="star-row">✡ ★ ✡ ★ ✡ ★ ✡ ★ ✡</div>
 
 <marquee class="bottom-marquee" scrollamount="3">
   🍝 ROY'S PASTA PALACE ~ EST. 1997 ~ "EAT. EAT. WHY AREN'T YOU EATING?" ~ CALL ROY: 718-ROY-PAST ~ OPEN 7 DAYS (CLOSED SHABBAT BUT ALSO OPEN SHABBAT IF YOU'RE HUNGRY) ~ 🍝
 </marquee>
 
 <div class="footer">
-  &copy; 1997-1999 Roy's Pasta Palace &bull; Made with ❤️ and schmaltz &bull; <a class="email-link" href="mailto:roy@royspasta.net">roy@royspasta.net</a>
+  &copy; 1997–1999 Roy's Pasta Palace &bull; Made with ❤️ and schmaltz &bull;
+  <a href="mailto:roy@royspasta.net">roy@royspasta.net</a>
 </div>
 
 <script>
-  const pastas = [
-    '🍝','🍜','🍲','🥘','🫕','🍱'
-  ];
+// ── STATE ──
+let count = 0;
+let combo = 0;
+let comboTimer = null;
+let lastFeedTime = 0;
+let bowlContent = '';
+let selectedEmoji = '🍝';
+let selectedName = 'Spaghetti';
+let visitorCount = 14782 + Math.floor(Math.random() * 300);
+let isFeedCooldown = false;
 
-  const pastaNames = [
-    'Matzah Ball Carbonara',
-    'Lox Linguine',
-    'Brisket Bolognese',
-    'Kugel-Stuffed Shells',
-    'Spaghetti & Schmear',
-    'Challah Pappardelle',
-    'Rugelach Ravioli',
-    'Farfalle Kugel',
-    'Matzo Fettuccine Alfredo',
-    'Gefilte Fish Pasta',
-    'High Holiday Gnocchi',
-    'Schmaltz Rigatoni',
-  ];
+document.getElementById('visitorCount').textContent = String(visitorCount).padStart(7, '0');
 
-  const quotes = [
-    '"More. More. Is that all you have?"',
-    '"Miriam, may she rest, would have given me seconds by now."',
-    '"This is good. Not as good as mine, but good."',
-    '"Oy, my heartburn. Worth it."',
-    '"You call this a portion? This is an insult."',
-    '"Finally! I was wasting away over here."',
+// ── DATA ──
+const quotes = {
+  hungry: [
+    '"Nu? You gonna feed me or what?"',
+    '"I\'m wasting away over here. WASTING."',
     '"My doctor said watch the carbs. My doctor is a shmendrik."',
-    '"Don\'t tell my son-in-law. He thinks I\'m watching my weight."',
-    '"I once ate pasta in Rome. Mine was better."',
-    '"Forty years ago Miriam made this. She\'d be very proud of you."',
+    '"You see this face? This is a hungry face. Feed it."',
+  ],
+  happy: [
+    '"Miriam, may she rest, would be proud of you."',
+    '"This is good. Not as good as mine, but good."',
+    '"Finally! I was fading away over here."',
     '"A bissel more garlic wouldn\'t kill you."',
-    '"You\'re a good person. A mensch. Now give me more."',
-  ];
+    '"You\'re a good person. A mensch."',
+    '"This one — this one I like."',
+  ],
+  stuffed: [
+    '"Oy, my heartburn. Worth it."',
+    '"I once ate pasta in Rome. Mine was better."',
+    '"Don\'t tell my son-in-law. He thinks I\'m watching my weight."',
+    '"More. MORE. Is that all you have?"',
+    '"Forty years ago Miriam made this. Different somehow."',
+    '"I feel... transcendent."',
+  ],
+  combo: [
+    '"NOW we\'re talking!! Keep going!!"',
+    '"YES! YES! DO NOT STOP!"',
+    '"GEVALT! That\'s what I\'m talking about!"',
+    '"OY VEY this is MAGNIFICENT!"',
+  ],
+  idle: [
+    '"...Hello? I\'m still here you know."',
+    '"My stomach is making sounds. Not good sounds."',
+    '"You forgot about Roy. ROY is here."',
+    '"The pasta isn\'t going to feed itself."',
+  ]
+};
 
-  const statusMessages = [
-    'hungry', 'eating...', 'EATING!!', 'FEASTING', 'ASCENDING', 'pasta-drunk', 
-    'transcendent', 'becoming pasta', 'one with the noodle', 'FULL (still eating)'
-  ];
+const statuses = [
+  'FAMISHED', 'HUNGRY', 'EATING...', 'PLEASED', 'SATISFIED',
+  'VERY FULL', 'STUFFED', 'TRANSCENDENT', 'ONE WITH NOODLE'
+];
 
-  let count = 0;
-  let pastaEmojis = '';
-  let isEating = false;
+const fullnessLabels = [
+  'Roy is famished 🍽️',
+  'Getting there...',
+  'Roy is pleased ✡️',
+  'Roy approves 👍',
+  'Roy is THRIVING 🌟',
+  'Roy is delighted 🎉',
+  'Roy has achieved pasta enlightenment 🍝',
+];
 
-  // Animate visitor counter on load
-  let visitorTarget = 14782 + Math.floor(Math.random() * 500);
-  document.getElementById('visitorCount').textContent = String(visitorTarget).padStart(7, '0');
+// ── PASTA SELECT ──
+function selectPasta(btn) {
+  document.querySelectorAll('.pasta-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedEmoji = btn.dataset.emoji;
+  selectedName = btn.dataset.name;
+}
 
-  function feedRoy() {
-    if (isEating) return;
-    isEating = true;
+// ── FEED ROY ──
+function feedRoy() {
+  if (isFeedCooldown) return;
+  isFeedCooldown = true;
+  setTimeout(() => { isFeedCooldown = false; }, 400);
 
-    count++;
-    const pasta = pastas[Math.floor(Math.random() * pastas.length)];
-    const pastaName = pastaNames[Math.floor(Math.random() * pastaNames.length)];
-    const quote = quotes[Math.floor(Math.random() * quotes.length)];
+  count++;
+  lastFeedTime = Date.now();
 
-    // Add pasta emoji to display
-    pastaEmojis += pasta;
-    const display = document.getElementById('pastaDisplay');
-    display.textContent = pastaEmojis;
-    display.classList.add('pasta-burst');
-    setTimeout(() => display.classList.remove('pasta-burst'), 300);
+  // Combo logic
+  clearTimeout(comboTimer);
+  combo++;
+  comboTimer = setTimeout(() => { combo = 0; updateComboDisplay(); }, 2500);
 
-    // Update counters
-    document.getElementById('pastaCount').textContent = count;
-    document.getElementById('lastPasta').textContent = pastaName;
-    document.getElementById('royStatus').textContent = statusMessages[Math.min(count - 1, statusMessages.length - 1)];
+  // Update bowl
+  if (bowlContent === '') bowlContent = '';
+  bowlContent += selectedEmoji;
+  const bowl = document.getElementById('bowlDisplay');
+  bowl.innerHTML = bowlContent;
+  bowl.scrollTop = bowl.scrollHeight;
 
-    // Update speech bubble
-    document.getElementById('speechBubble').textContent = quote;
+  // Stats
+  document.getElementById('pastaCount').textContent = count;
+  document.getElementById('lastPasta').textContent = selectedName;
 
-    // Update fullness bar
-    const fullness = Math.min(count * 8, 100);
-    document.getElementById('fullnessBar').style.width = fullness + '%';
-    
-    const fullnessLabels = ['Roy is hungry 🍽️','Getting there...','Roy approves 👍','Roy is pleased ✡️','Roy is delighted 🌟','Roy is THRIVING 🎉','Roy has achieved pasta enlightenment 🍝'];
-    const labelIndex = Math.min(Math.floor(count / 2), fullnessLabels.length - 1);
-    document.getElementById('fullnessText').textContent = fullnessLabels[labelIndex];
+  const statusIndex = Math.min(Math.floor(count / 3), statuses.length - 1);
+  document.getElementById('royStatus').textContent = statuses[statusIndex];
+  updateComboDisplay();
 
-    // Animate Roy eating
-    document.getElementById('mouthPath').classList.add('eating');
-    document.getElementById('forkArm').classList.add('eating');
-    const royCont = document.getElementById('roySvgContainer');
-    royCont.classList.add('bouncing');
+  // Fullness
+  const fullness = Math.min(count * 5, 100);
+  document.getElementById('fullnessBar').style.width = fullness + '%';
+  const labelIdx = Math.min(Math.floor(count / 4), fullnessLabels.length - 1);
+  document.getElementById('fullnessStatus').textContent = fullnessLabels[labelIdx];
 
-    // Roy's eyebrows go up when happy
-    document.getElementById('leftBrow').setAttribute('d', 'M 57 85 Q 63 81 69 85');
-    document.getElementById('rightBrow').setAttribute('d', 'M 81 85 Q 87 81 93 85');
+  // Quote
+  let pool;
+  if (combo >= 4) pool = quotes.combo;
+  else if (count <= 2) pool = quotes.hungry;
+  else if (count <= 8) pool = quotes.happy;
+  else pool = quotes.stuffed;
+  document.getElementById('speechBubble').textContent = pool[Math.floor(Math.random() * pool.length)];
 
-    // Eyes widen
-    document.getElementById('leftPupil').setAttribute('r', '2');
-    document.getElementById('rightPupil').setAttribute('r', '2');
+  // Animate Roy
+  animateRoy();
 
+  // Flying pasta
+  spawnFlyingPasta();
+
+  // Visitor bump
+  visitorCount++;
+  document.getElementById('visitorCount').textContent = String(visitorCount).padStart(7, '0');
+}
+
+function updateComboDisplay() {
+  const el = document.getElementById('comboCount');
+  el.textContent = 'x' + combo;
+  el.style.color = combo >= 5 ? '#ff2200' : combo >= 3 ? '#ffaa00' : '#00ff00';
+}
+
+// ── ROY ANIMATION ──
+function animateRoy() {
+  const svg = document.getElementById('roySvg');
+  const browL = document.getElementById('browL');
+  const browR = document.getElementById('browR');
+  const mouth = document.getElementById('mouthPath');
+  const forkArm = document.getElementById('forkArm');
+  const wrap = document.getElementById('roySvgWrap');
+
+  // Bounce
+  svg.style.animation = 'none';
+  void svg.offsetWidth;
+  svg.style.animation = 'bounce 0.5s ease-in-out';
+
+  // Eyebrows up
+  browL.setAttribute('d', 'M 60 89 Q 67 84 74 89');
+  browR.setAttribute('d', 'M 86 89 Q 93 84 100 89');
+
+  // Mouth open wide
+  mouth.setAttribute('d', 'M 68 122 Q 80 134 92 122');
+
+  // Fork stab animation
+  forkArm.style.transition = 'transform 0.15s';
+  forkArm.style.transform = 'rotate(15deg) translateY(-8px)';
+
+  setTimeout(() => {
+    forkArm.style.transform = 'rotate(-5deg) translateY(4px)';
     setTimeout(() => {
-      document.getElementById('mouthPath').classList.remove('eating');
-      document.getElementById('forkArm').classList.remove('eating');
-      royCont.classList.remove('bouncing');
-      // Return eyebrows
-      document.getElementById('leftBrow').setAttribute('d', 'M 57 88 Q 63 85 69 88');
-      document.getElementById('rightBrow').setAttribute('d', 'M 81 88 Q 87 85 93 88');
-      document.getElementById('leftPupil').setAttribute('r', '3');
-      document.getElementById('rightPupil').setAttribute('r', '3');
-      isEating = false;
-    }, 900);
+      forkArm.style.transform = '';
+      mouth.setAttribute('d', 'M 68 126 Q 80 134 92 126');
+      browL.setAttribute('d', 'M 60 93 Q 67 90 74 93');
+      browR.setAttribute('d', 'M 86 93 Q 93 90 100 93');
+    }, 200);
+  }, 150);
+}
 
-    // Scroll pasta display to bottom
-    display.scrollTop = display.scrollHeight;
+// ── FLYING PASTA ──
+function spawnFlyingPasta() {
+  const container = document.getElementById('flyingPastaContainer');
+  const wrap = document.getElementById('roySvgWrap');
+  const rect = wrap.getBoundingClientRect();
 
-    // Increment visitor count
-    visitorTarget++;
-    document.getElementById('visitorCount').textContent = String(visitorTarget).padStart(7, '0');
+  const el = document.createElement('div');
+  el.className = 'flying-pasta';
+  el.textContent = selectedEmoji;
+
+  // Start from random position above/beside Roy
+  const startX = Math.random() * 120 + 10;
+  const startY = -30;
+  el.style.left = startX + 'px';
+  el.style.top = startY + 'px';
+
+  // Target: Roy's mouth area (~80, 126 in SVG coords, scaled)
+  const scale = rect.width / 160;
+  const targetX = (80 * scale) - startX - 15;
+  const targetY = (126 * scale) - startY - 15;
+
+  el.style.setProperty('--tx', targetX + 'px');
+  el.style.setProperty('--ty', targetY + 'px');
+  el.style.animation = 'fly-to-mouth 0.5s ease-in forwards';
+
+  container.appendChild(el);
+  setTimeout(() => el.remove(), 550);
+}
+
+// ── IDLE CHECK ──
+setInterval(() => {
+  if (count > 0 && Date.now() - lastFeedTime > 6000) {
+    const pool = quotes.idle;
+    document.getElementById('speechBubble').textContent = pool[Math.floor(Math.random() * pool.length)];
+    lastFeedTime = Date.now() - 3000; // throttle
+  }
+}, 6000);
+
+// ── TABS ──
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── GUESTBOOK ──
+function addGuestbookEntry() {
+  const name = document.getElementById('gbName').value.trim() || 'Anonymous';
+  const msg = document.getElementById('gbMessage').value.trim();
+  if (!msg) return;
+
+  const now = new Date();
+  const date = (now.getMonth()+1).toString().padStart(2,'0') + '/' +
+               now.getDate().toString().padStart(2,'0') + '/' +
+               now.getFullYear();
+
+  const entry = document.createElement('div');
+  entry.className = 'guestbook-entry';
+  entry.innerHTML = `<span class="guestbook-name">${escHtml(name)}</span> <span class="guestbook-date">[${date}]</span><br>${escHtml(msg)}`;
+
+  const entries = document.getElementById('guestbookEntries');
+  entries.insertBefore(entry, entries.firstChild);
+
+  document.getElementById('gbName').value = '';
+  document.getElementById('gbMessage').value = '';
+  document.getElementById('speechBubble').textContent = '"You signed the guestbook?! A mensch. An absolute mensch."';
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── MINI GAME ──
+let gameActive = false;
+let gameScore = 0;
+let gameMissed = 0;
+let gameBest = 0;
+let gameInterval = null;
+let gameItems = [];
+const gamePastas = ['🍝','🍜','🫕','🥟','🥚','🫙','🍲'];
+const gameBads = ['🧀','🥩','🫙'];
+
+function startGame() {
+  if (gameActive) return;
+  gameActive = true;
+  gameScore = 0;
+  gameMissed = 0;
+  document.getElementById('gameScore').textContent = 0;
+  document.getElementById('gameMissed').textContent = 0;
+  document.getElementById('gameStartBtn').textContent = 'RUNNING...';
+  document.getElementById('gameStartBtn').disabled = true;
+
+  const area = document.getElementById('gameArea');
+  area.innerHTML = '';
+  gameItems = [];
+
+  let spawnDelay = 1200;
+  let duration = 30000;
+  let elapsed = 0;
+
+  function spawn() {
+    if (!gameActive) return;
+    const pasta = gamePastas[Math.floor(Math.random() * gamePastas.length)];
+    const item = document.createElement('div');
+    item.className = 'falling-item';
+    item.textContent = pasta;
+    const left = Math.random() * (area.offsetWidth - 40);
+    item.style.left = left + 'px';
+    const fallDuration = Math.max(1.5, 3 - elapsed/20000) + Math.random() * 0.8;
+    item.style.animationDuration = fallDuration + 's';
+    item.dataset.caught = 'false';
+    area.appendChild(item);
+    gameItems.push(item);
+
+    // Remove if not caught
+    setTimeout(() => {
+      if (item.dataset.caught === 'false' && item.parentNode) {
+        item.remove();
+        gameMissed++;
+        document.getElementById('gameMissed').textContent = gameMissed;
+        if (gameMissed >= 5) endGame();
+      }
+    }, fallDuration * 1000);
+
+    elapsed += spawnDelay;
+    spawnDelay = Math.max(600, spawnDelay - 30);
+    if (gameActive) setTimeout(spawn, spawnDelay);
   }
 
-  // Auto-feed Roy once on load after a moment, so he's not just sitting there
-  setTimeout(() => {
-    document.getElementById('speechBubble').textContent = '"Nu? You gonna feed me or what?"';
-  }, 500);
+  spawn();
+}
+
+function endGame() {
+  gameActive = false;
+  if (gameScore > gameBest) { gameBest = gameScore; document.getElementById('gameBest').textContent = gameBest; }
+  document.getElementById('gameArea').innerHTML = `<div style="color:#00ff00;text-align:center;padding-top:60px;font-size:18px;">GAME OVER!<br>You fed Roy ${gameScore} times!<br>${gameScore >= 10 ? '🌟 Roy is impressed.' : 'Roy is disappointed.'}</div>`;
+  document.getElementById('gameStartBtn').textContent = '▶ PLAY AGAIN';
+  document.getElementById('gameStartBtn').disabled = false;
+  // Feed main Roy
+  for (let i = 0; i < Math.min(gameScore, 5); i++) feedRoy();
+}
+
+function catchItem(item) {
+  if (item.dataset.caught === 'true') return;
+  item.dataset.caught = 'true';
+  item.classList.add('caught');
+  gameScore++;
+  document.getElementById('gameScore').textContent = gameScore;
+  document.getElementById('gameBest').textContent = Math.max(gameBest, gameScore);
+  setTimeout(() => item.remove(), 300);
+}
+
+function gameClick(e) {
+  const area = document.getElementById('gameArea');
+  const rect = area.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  hitTestItems(x, y);
+}
+
+function gameTouch(e) {
+  e.preventDefault();
+  const area = document.getElementById('gameArea');
+  const rect = area.getBoundingClientRect();
+  Array.from(e.changedTouches).forEach(t => {
+    hitTestItems(t.clientX - rect.left, t.clientY - rect.top);
+  });
+}
+
+function hitTestItems(x, y) {
+  if (!gameActive) return;
+  const area = document.getElementById('gameArea');
+  area.querySelectorAll('.falling-item').forEach(item => {
+    if (item.dataset.caught === 'true') return;
+    const r = item.getBoundingClientRect();
+    const ar = area.getBoundingClientRect();
+    const ix = r.left - ar.left + r.width/2;
+    const iy = r.top - ar.top + r.height/2;
+    if (Math.hypot(x - ix, y - iy) < 30) catchItem(item);
+  });
+}
+
+// Keyboard shortcut: spacebar = feed Roy
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && !e.target.matches('input,textarea')) {
+    e.preventDefault();
+    feedRoy();
+  }
+});
 </script>
 
 </body>
